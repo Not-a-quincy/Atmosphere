@@ -54,7 +54,7 @@ body {
     backdrop-filter: blur(30px);
     background: rgba(19, 19, 19, 0.75);
     border-bottom: 1px solid rgba(255,255,255,0.08);
-    z-index: 1000;
+    z-index: 10;
 }
 
 .logo { 
@@ -203,7 +203,7 @@ body {
     width: 100%;
     display: flex;
     justify-content: center;
-    z-index: 900;
+    z-index: 1;
 }
 
 .search-bar {
@@ -251,10 +251,10 @@ body {
     backdrop-filter: blur(30px);
     border-top: 1px solid rgba(255,255,255,0.08);
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     gap: 80px;
     align-items: center;
-    z-index: 1000;
+    z-index: 1;
 }
 
 .nav-item {
@@ -334,3 +334,189 @@ body {
 .card:nth-child(4) { animation-delay: 0.4s; }
 .card:nth-child(5) { animation-delay: 0.5s; }
 .card:nth-child(6) { animation-delay: 0.6s; }
+
+.search-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: rgba(19, 19, 19, 0.9); /* Darkened for atmosphere */
+    backdrop-filter: blur(10px);
+    
+    /* Layout */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+
+    /* Transition Properties */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    
+    /* Start the overlay off-screen (Top) */
+    transform: translateY(-100%); 
+    
+    /* Smooth "Slide and Fade" timing */
+    transition: 
+        transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+        opacity 0.4s ease, 
+        visibility 0.4s ease;
+}
+
+.search-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    
+    /* Bring it to its natural position */
+    transform: translateY(0); 
+}
+
+/* In index.css */
+body:has(.search-overlay.active) .input-container {
+    display: none;
+}
+
+.search-overlay-nav {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end; /* Pushes the button to the right */
+    padding: 20px 30px; /* Space from the edges of the screen */
+    position: sticky; /* Keeps the close button visible even if you scroll */
+    top: 0;
+    z-index: 999;
+    
+}
+
+.close-btn {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.08); /* Subtle glass effect */
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg); /* Cool little interaction */
+}
+
+.close-btn .material-symbols-outlined {
+    font-size: 28px; /* Making the icon a bit bigger */
+    color: var(--on-background);
+}
+
+
+/* --- 3. The Create Post Glass Card --- */
+.canvas {
+    width: 100%;
+    max-width: 1100px;
+    padding: 0 32px 80px 32px;
+}
+
+.content-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 320px; /* Card + Sidebar */
+    gap: 32px;
+    align-items: start;
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 40px;
+}
+.title-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 24px;
+    padding-bottom: 16px;
+    outline: none;
+}
+
+input.title-input::placeholder,
+textarea.body-input::placeholder {
+    font-weight: 200 !important;
+    font-size: 18px;
+    font-family: 'Manrope', sans-serif !important;
+    color: rgba(255, 255, 255, 0.3) !important;
+    opacity: 1; 
+}
+
+.body-input {
+    font-family: 'Manrope', sans-serif !important;
+    width: 100%;
+    background: transparent;
+    border: none;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 200px;
+    resize: none;
+    outline: none;
+    color: var(--on-background);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Mood Grid Selection */
+.mood-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.mood-btn {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 24px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-align: left;
+}
+
+.mood-btn.active {
+    border-color: var(--primary-container);
+    background: rgba(160, 196, 255, 0.08);
+}
+
+.indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--primary-container);
+    box-shadow: 0 0 10px var(--primary-container);
+    margin-bottom: 12px;
+}
+.toolbar {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 60px; /* Tightened height */
+    gap: 12px; /* Closer icons for a cohesive toolset */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 16px; /* Space before the text starts */
+}
+
+.toolbar span {
+    color:  rgba(195, 198, 209, 0.7);
+    font-variation-settings: 'wght' 300;
+}
+
+.create-post-header{
+    font-size: 32px; 
+    font-weight: 100; 
+    color:  rgba(195, 198, 209, 0.7);
+    margin-bottom: 30px;
+    letter-spacing: 0.1rem;
+}
